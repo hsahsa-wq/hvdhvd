@@ -263,28 +263,36 @@ body {
     pointer-events: none;
 }
 
-.envelope-wrapper.open .letter {
-    /* 
+/* 
        OPENING:
-       - Z-index flips to 20.
-       - If immediate: It pops in front of pocket.
-       - Since Scale(1.2) covers pocket regardless, it looks like it floats out.
-       - Delay transform to wait for flap?
-       - Flap takes 0.6s.
-       - Letter starts moving at 0.4s?
+       - Z-index flips to 20 over everything.
+       - Use fixed large dimensions to cover envelope (300x200).
+       - Center it relative to wrapper.
+       - Wrapper Center is at (150, 100).
+       - Letter Center (175, 200).
+       - Bottom needs to shift down to align centers.
+       - smooth transition on width/height/bottom.
     */
-    z-index: 20;
+z-index: 20;
 
-    /* Center and Scale */
-    bottom: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%) scale(1.2);
-    height: 95%;
-    width: 90%;
-    background: #fffbf0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+width: 350px;
+/* Wider than envelope */
+height: 400px;
+/* Much taller */
+bottom: -100px;
+/* (200 - 400)/2 = -100px. Centers vertically on wrapper */
+left: 50%;
+transform: translateX(-50%);
+/* Centers horizontally */
 
-    transition: transform 0.8s ease-in-out 0.4s, z-index 0.1s 0.4s;
+background: #fffbf0;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+/* Delay to wait for flap to open before moving out */
+transition: width 0.8s ease-in-out 0.4s,
+height 0.8s ease-in-out 0.4s,
+bottom 0.8s ease-in-out 0.4s,
+z-index 0.1s 0.4s;
 }
 
 .envelope-wrapper.open .letter-content {
