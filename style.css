@@ -129,31 +129,16 @@ body {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 0);
+    top: auto;
+
     width: 90%;
     height: 90%;
     background: var(--letter-bg);
     border-radius: 5px;
     z-index: 4;
 
-    /* 
-       CLOSING Transition:
-       - Transform takes 0.6s (Wait for Flap? No, Letter moves first).
-       - Z-Index stays 4 IMMIEDIATE on remove .open -> Snaps behind pocket?
-       Wait, if we snap behind pocket, we are clipped.
-       But closing animation needs to look like it slides DOWN.
-       Inside envelope = Clipped by Bottom Edge?
-       Pocket is ON TOP of Envelope Body (z:5).
-       Letter is z:4.
-       Pocket (z:10).
-       Letter is behind pocket.
-       So part of letter overlapping pocket is hidden.
-       Part above matches bg.
-       So it looks like it slides INTO the pocket. Correct.
-       
-       So Z-index: 4 immediately on close is correct.
-    */
-    transition: transform 0.6s ease-in-out, z-index 0.1s;
+    transition: width 0.6s ease-in-out, height 0.6s ease-in-out, top 0.6s ease-in-out, transform 0.6s ease-in-out, z-index 0.1s;
 
     padding: 20px;
     box-sizing: border-box;
@@ -263,36 +248,21 @@ body {
     pointer-events: none;
 }
 
-/* 
-       OPENING:
-       - Z-index flips to 20 over everything.
-       - Use fixed large dimensions to cover envelope (300x200).
-       - Center it relative to wrapper.
-       - Wrapper Center is at (150, 100).
-       - Letter Center (175, 200).
-       - Bottom needs to shift down to align centers.
-       - smooth transition on width/height/bottom.
-    */
-z-index: 20;
+.envelope-wrapper.open .letter {
+    z-index: 20;
+    width: 350px;
+    height: 400px;
 
-width: 350px;
-/* Wider than envelope */
-height: 400px;
-/* Much taller */
-bottom: -100px;
-/* (200 - 400)/2 = -100px. Centers vertically on wrapper */
-left: 50%;
-transform: translateX(-50%);
-/* Centers horizontally */
+    /* Strict Centering */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: auto;
 
-background: #fffbf0;
-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: #fffbf0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 
-/* Delay to wait for flap to open before moving out */
-transition: width 0.8s ease-in-out 0.4s,
-height 0.8s ease-in-out 0.4s,
-bottom 0.8s ease-in-out 0.4s,
-z-index 0.1s 0.4s;
+    transition: width 0.6s ease-in-out 0.4s, height 0.6s ease-in-out 0.4s, top 0.6s ease-in-out 0.4s, transform 0.6s ease-in-out 0.4s;
 }
 
 .envelope-wrapper.open .letter-content {
