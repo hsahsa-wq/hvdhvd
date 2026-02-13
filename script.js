@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Envelope Interaction ---
     function openEnvelope() {
-        envelopeWrapper.classList.add('open');
+        envelopeWrapper.classList.toggle('open');
     }
 
     envelopeWrapper.addEventListener('click', openEnvelope);
